@@ -15,6 +15,7 @@ public class Server {
     public Server() {
         System.out.println("Сервер запущен");
         waitingConnection();
+        //test
     }
 
     private void waitingConnection() {
