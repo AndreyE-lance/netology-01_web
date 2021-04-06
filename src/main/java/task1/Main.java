@@ -1,9 +1,12 @@
 package task1;
 
+
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +15,6 @@ public class Main {
             public void handle(Request request, BufferedOutputStream responseStream) {
                 // TODO: handlers code
                 sendRespond(request, responseStream);
-
             }
         });
 
@@ -29,7 +31,6 @@ public class Main {
                 sendRespond(request, responseStream);
             }
         });
-
         server.listen(53535);
     }
 
@@ -47,6 +48,7 @@ public class Main {
             ).getBytes());
             Files.copy(filePath, responseStream);
             responseStream.flush();
+            System.out.println(request.getQueryParam("name"));
         } catch (IOException e) {
             e.printStackTrace();
         }

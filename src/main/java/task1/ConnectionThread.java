@@ -1,9 +1,13 @@
 package task1;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 

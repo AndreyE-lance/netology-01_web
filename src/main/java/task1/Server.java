@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private final List<String> validPaths = List.of("/index.html", "/spring.svg", "/spring.html");
+    private final List<String> validPaths = List.of("/index.html", "/spring.svg", "/spring.html"); //GET POST?
     private final ExecutorService threadPool = Executors.newFixedThreadPool(64);
 
     private final Map<String, Map<String, Handler>> handlers;
