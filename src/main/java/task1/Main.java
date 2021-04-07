@@ -1,7 +1,6 @@
 package task1;
 
 
-
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,11 +42,6 @@ public class Main {
             public void handle(Request request, BufferedOutputStream responseStream) {
                 // TODO: handlers code
                 sendRespond(request, responseStream);
-                try {
-                    System.out.println(request.getPostParam("name"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
 

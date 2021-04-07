@@ -71,11 +71,10 @@ public class Request {
 
         if (!method.equals("GET")) {
             in.skip(headersDelimiter.length);
-            // вычитываем Content-Length, чтобы прочитать body
             final var contentLength = extractHeader(headers, "Content-Length");
             if (contentLength.isPresent()) {
                 final var length = Integer.parseInt(contentLength.get());
-                final var bodyBytes = in.readNBytes(length+2);
+                final var bodyBytes = in.readNBytes(length + 2);
 
                 final var body = new String(bodyBytes);
                 nameValuePairList = getPostParams(body);
