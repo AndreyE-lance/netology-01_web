@@ -31,6 +31,26 @@ public class Main {
                 sendRespond(request, responseStream);
             }
         });
+
+        server.addHandler("GET", "/form.html", new Handler() {
+            public void handle(Request request, BufferedOutputStream responseStream) {
+                // TODO: handlers code
+                sendRespond(request, responseStream);
+            }
+        });
+
+        server.addHandler("POST", "/post/post_test.html", new Handler() {
+            public void handle(Request request, BufferedOutputStream responseStream) {
+                // TODO: handlers code
+                sendRespond(request, responseStream);
+                try {
+                    System.out.println(request.getPostParam("name"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         server.listen(53535);
     }
 
@@ -48,7 +68,6 @@ public class Main {
             ).getBytes());
             Files.copy(filePath, responseStream);
             responseStream.flush();
-            System.out.println(request.getQueryParam("name"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,13 +1,9 @@
 package task1;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -20,21 +16,20 @@ public class ConnectionThread implements Runnable {
     public ConnectionThread(Socket socket, List<String> validPaths, Map<String, Map<String, Handler>> handlers) {
         this.socket = socket;
         this.validPaths = validPaths;
-        //this.start();
         this.handlers = handlers;
     }
 
     @Override
     public void run() {
-        try (final var in = socket.getInputStream();
+        try (final var in = new BufferedInputStream(socket.getInputStream());
              final var out = new BufferedOutputStream(socket.getOutputStream())) {
             final var requestLine = Request.fromInputStream(in);
             System.out.println();
             Map<String, Handler> hndl = handlers.get(requestLine.getMethod());
-            if(hndl!=null){
+            if (hndl != null) {
                 Handler h = hndl.get(requestLine.getPath());
-                if(h!=null) {
-                    h.handle(requestLine,out);
+                if (h != null) {
+                    h.handle(requestLine, out);
                 } else invalidPath(out);
             } else invalidPath(out);
         } catch (IOException e) {
