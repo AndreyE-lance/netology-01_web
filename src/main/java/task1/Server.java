@@ -5,11 +5,12 @@ import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private final List<String> validPaths = List.of("/index.html", "/spring.svg", "/spring.html");
+    private final List<String> validPaths = List.of("/index.html", "/spring.svg", "/spring.html", "/form.html", "/post/post_test.html","/form_data.html");
     private final ExecutorService threadPool = Executors.newFixedThreadPool(64);
 
     private final Map<String, Map<String, Handler>> handlers;
@@ -17,7 +18,7 @@ public class Server {
 
     public Server() {
         System.out.println("Сервер запущен");
-        this.handlers = new HashMap<>();
+        this.handlers = new ConcurrentHashMap<>();
     }
 
     public void listen(int port) {

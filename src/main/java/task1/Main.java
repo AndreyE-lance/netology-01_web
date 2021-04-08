@@ -23,7 +23,30 @@ public class Main {
             }
         });
 
+        server.addHandler("GET", "/form.html", new Handler() {
+            public void handle(Request request, BufferedOutputStream responseStream) {
+                // TODO: handlers code
+                //System.out.println(request.getQueryParam("name"));
+                sendRespond(request, responseStream);
+            }
+        });
+
+        server.addHandler("POST", "/post/post_test.html", new Handler() {
+            public void handle(Request request, BufferedOutputStream responseStream) {
+                // TODO: handlers code post_test
+                System.out.println(request.getPostParam("name"));
+                sendRespond(request, responseStream);
+            }
+        });
+
         server.addHandler("GET", "/main/main.html", new Handler() {
+            public void handle(Request request, BufferedOutputStream responseStream) {
+                // TODO: handlers code
+                sendRespond(request, responseStream);
+            }
+        });
+
+        server.addHandler("GET", "/form_data.html", new Handler() {
             public void handle(Request request, BufferedOutputStream responseStream) {
                 // TODO: handlers code
                 sendRespond(request, responseStream);

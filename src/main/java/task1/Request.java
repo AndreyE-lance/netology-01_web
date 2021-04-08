@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Request {
     private final String method;
@@ -51,8 +49,7 @@ public class Request {
             throw new IOException();
         }
         var method = parts[0];
-        List<NameValuePair> nameValuePairList = getQueryParams(parts[1]);
-        var path = nameValuePairList.get(0).getName();
+        var path = parts[1].split("\\?")[0];
         String line;
         Map<String, String> headers = new HashMap<>();
         while (!(line = in.readLine()).equals("")) {
@@ -61,8 +58,19 @@ public class Request {
             var headerValue = line.substring(indexOf + 2);
             headers.put(headerName, headerValue);
         }
+
+        List<NameValuePair> nameValuePairList;
+        if(!method.equals("GET")){
+            char[] buffer = parseBodyPost(in, headers);
+            nameValuePairList = getPostParams(String.valueOf(buffer));
+        } else{
+            nameValuePairList = getQueryParams(parts[1]);
+        }
+
+
         return new Request(method, path, headers, inputStream, nameValuePairList);
     }
+
 
     protected String getQueryParam(String name) {
         for (var i = 0; i < nameValuePairList.size(); i++) {
@@ -76,4 +84,22 @@ public class Request {
         return URLEncodedUtils.parse(url, Charset.defaultCharset(), '?');
     }
 
+    public static char[] parseBodyPost(BufferedReader in, Map<String, String> headers) throws IOException {
+        char[] buffer = new char[Integer.parseInt(headers.get("Content-Length"))];
+        in.read(buffer);
+        return buffer;
+    }
+
+    private static List<NameValuePair> getPostParams(String body) {
+        return URLEncodedUtils.parse(body, Charset.defaultCharset(), '&');
+    }
+
+    protected List<String> getPostParam(String name) {
+        List<String> list = new LinkedList<>();
+        for (var i = 0; i < nameValuePairList.size(); i++) {
+            if (nameValuePairList.get(i).getName().equals(name))
+                list.add(nameValuePairList.get(i).getValue());
+        }
+        return list;
+    }
 }
